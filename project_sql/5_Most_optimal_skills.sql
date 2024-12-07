@@ -13,7 +13,7 @@ data analysis
 */
 
 -- Identifies skills in high demand for Data Analyst roles
--- Use Query #3 (but modified)
+
 WITH skills_demand AS (
   SELECT
     skills_dim.skill_id,
@@ -37,7 +37,7 @@ WITH skills_demand AS (
 
 
 -- Skills with high average salaries for Data Analyst roles
--- Use Query #4 (but modified)
+
 , average_salary AS (
   SELECT
     skills_job_dim.skill_id,
@@ -46,7 +46,6 @@ WITH skills_demand AS (
     job_postings_fact
 	  INNER JOIN
 	    skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
-	  -- There's no INNER JOIN to skills_dim because we got rid of the skills_dim.name 
   WHERE
     job_postings_fact.job_title_short = 'Data Analyst'
 		AND job_postings_fact.salary_year_avg IS NOT NULL
@@ -60,15 +59,13 @@ SELECT
   skills_demand.skill_id,
   skills_demand.skills,
   skills_demand.demand_count,
-  ROUND(average_salary.avg_salary, 0) AS avg_salary --ROUND to 2 decimals 
+  ROUND(average_salary.avg_salary, 0) AS avg_salary 
 FROM
   skills_demand
 	INNER JOIN
 	  average_salary ON skills_demand.skill_id = average_salary.skill_id
--- WHERE demand_count > 10
-ORDER BY
-   
-	avg_salary DESC,
+WHERE demand_count > 10
+ORDER BY  
+	  avg_salary DESC,
     demand_count DESC
-LIMIT 10 --Limit 25
-; 
+LIMIT 30 ; 
