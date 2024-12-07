@@ -273,39 +273,193 @@ LIMIT 5;
 | azure  | 242          |
 | spark  | 223          |
 
+### 4a. Data Analysts Skills Based on Salary
+
+Gathering the average salaries associated with different skills to get which skills are the highest paying.
+
+```sql
+SELECT
+  skills_dim.skills AS skill, 
+  ROUND(AVG(job_postings_fact.salary_year_avg),0) AS avg_salary
+FROM
+  job_postings_fact
+	INNER JOIN
+	  skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+	INNER JOIN
+	  skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE
+  job_postings_fact.job_title_short = 'Data Analyst' 
+  AND job_postings_fact.salary_year_avg IS NOT NULL 
+GROUP BY
+  skills_dim.skills 
+ORDER BY
+  avg_salary DESC
+LIMIT 20 ; 
+```
+Here is the result:
+
+| skill        | avg_salary |
+| ------------ | ---------- |
+| svn          | 400000     |
+| solidity     | 179000     |
+| couchbase    | 160515     |
+| datarobot    | 155486     |
+| golang       | 155000     |
+| mxnet        | 149000     |
+| dplyr        | 147633     |
+| vmware       | 147500     |
+| terraform    | 146734     |
+| twilio       | 138500     |
+| gitlab       | 134126     |
+| kafka        | 129999     |
+| puppet       | 129820     |
+| keras        | 127013     |
+| pytorch      | 125226     |
+| perl         | 124686     |
+| ansible      | 124370     |
+| hugging face | 123950     |
+| tensorflow   | 120647     |
+| cassandra    | 118407     |
 
 
--- ![Alt text](url_to_image)
+### 4b. Data Engineers Skills Based on Salary
+
+```sql
+SELECT
+  skills_dim.skills AS skill, 
+  ROUND(AVG(job_postings_fact.salary_year_avg),0) AS avg_salary
+FROM
+  job_postings_fact
+	INNER JOIN
+	  skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+	INNER JOIN
+	  skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+WHERE
+  job_postings_fact.job_title_short = 'Data Engineer' 
+  AND job_postings_fact.salary_year_avg IS NOT NULL 
+GROUP BY
+  skills_dim.skills 
+ORDER BY
+  avg_salary DESC
+LIMIT 20; 
+```
+
+Here are the result:
+
+| skill      | avg_salary |
+| ---------- | ---------- |
+| node       | 181862     |
+| mongo      | 179403     |
+| ggplot2    | 176250     |
+| solidity   | 166250     |
+| vue        | 159375     |
+| codecommit | 155000     |
+| ubuntu     | 154455     |
+| clojure    | 153663     |
+| cassandra  | 150255     |
+| rust       | 147771     |
+| drupal     | 147500     |
+| perl       | 145540     |
+| next.js    | 145000     |
+| angular    | 143319     |
+| scala      | 143161     |
+| kafka      | 143086     |
+| gdpr       | 142369     |
+| shell      | 141725     |
+| macos      | 141617     |
+| numpy      | 141605     |
 
 
+### 5. Most Optimal Skills to Learn
 
+Combining insights from demand and salary data, this query aimed to pinpoint skills that are both in high demand and have high salaries, offering a strategic focus for skill development.
 
+```sql
+WITH skills_demand AS (
+  SELECT
+    skills_dim.skill_id,
+		skills_dim.skills,
+    COUNT(skills_job_dim.job_id) AS demand_count
+  FROM
+    job_postings_fact
+	  INNER JOIN
+	    skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+	  INNER JOIN
+	    skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
+  WHERE
+    job_postings_fact.job_title_short = 'Data Analyst'
+		AND job_postings_fact.salary_year_avg IS NOT NULL
+    AND job_postings_fact.job_work_from_home = True
+  GROUP BY
+    skills_dim.skill_id
+  HAVING
+    COUNT(skills_job_dim.job_id) > 10  
+)
+, average_salary AS (
+  SELECT
+    skills_job_dim.skill_id,
+    AVG(job_postings_fact.salary_year_avg) AS avg_salary
+  FROM
+    job_postings_fact
+	  INNER JOIN
+	    skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
+  WHERE
+    job_postings_fact.job_title_short = 'Data Analyst'
+		AND job_postings_fact.salary_year_avg IS NOT NULL
+    AND job_postings_fact.job_work_from_home = True
+  GROUP BY
+    skills_job_dim.skill_id
+    
+)
 
+SELECT
+  skills_demand.skill_id,
+  skills_demand.skills,
+  skills_demand.demand_count,
+  ROUND(average_salary.avg_salary, 0) AS avg_salary 
+FROM
+  skills_demand
+	INNER JOIN
+	  average_salary ON skills_demand.skill_id = average_salary.skill_id
+WHERE demand_count > 10
+ORDER BY  
+	  avg_salary DESC,
+    demand_count DESC
+LIMIT 30;
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*Show the top paying roles*
+| skill_id | skills     | demand_count | avg_salary |
+| -------- | ---------- | ------------ | ---------- |
+| 8        | go         | 27           | 115320     |
+| 234      | confluence | 11           | 114210     |
+| 97       | hadoop     | 22           | 113193     |
+| 80       | snowflake  | 37           | 112948     |
+| 74       | azure      | 34           | 111225     |
+| 77       | bigquery   | 13           | 109654     |
+| 76       | aws        | 32           | 108317     |
+| 4        | java       | 17           | 106906     |
+| 194      | ssis       | 12           | 106683     |
+| 233      | jira       | 20           | 104918     |
+| 79       | oracle     | 37           | 104534     |
+| 185      | looker     | 49           | 103795     |
+| 2        | nosql      | 13           | 101414     |
+| 1        | python     | 236          | 101397     |
+| 5        | r          | 148          | 100499     |
+| 78       | redshift   | 16           | 99936      |
+| 187      | qlik       | 13           | 99631      |
+| 182      | tableau    | 230          | 99288      |
+| 197      | ssrs       | 14           | 99171      |
+| 92       | spark      | 13           | 99077      |
+| 13       | c++        | 11           | 98958      |
+| 186      | sas        | 63           | 98902      |
+| 7        | sas        | 63           | 98902      |
+| 61       | sql server | 35           | 97786      |
+| 9        | javascript | 20           | 97587      |
+| 183      | power bi   | 110          | 97431      |
+| 0        | sql        | 398          | 97237      |
+| 215      | flow       | 28           | 97200      |
+| 201      | alteryx    | 17           | 94145      |
+| 199      | spss       | 24           | 92170      |
 
 # What You Learned - Specific techniques and skills you Learned
 
