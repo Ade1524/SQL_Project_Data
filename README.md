@@ -134,7 +134,7 @@ ORDER BY
     salary_year_avg DESC
 LIMIT 10;
 ```
-
+# MISSING VISUAL
 ### 2. Data Analyst Skills for Top Paying Jobs
 
 To understand what skills are required for the top-paying jobs, I joined the job postings with high salaries with the skills data, providing insights into what employers value for high-compensation roles.
@@ -161,7 +161,7 @@ WHERE
     AND salary_year_avg IS NOT NULL
 ORDER BY
     salary_year_avg DESC
-LIMIT 20
+LIMIT 10
 
 )
 
@@ -180,8 +180,8 @@ ORDER BY
     top_paying_jobs_for_Data_Analyst.salary_year_avg DESC;
 ```
 
-# MISSING VISUAL
--- ![Alt text](url_to_image)
+![Top skills](assets/2_top_skills_2023.png)
+
 
 
 Here are the insights from the "skills" column:
