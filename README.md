@@ -134,7 +134,10 @@ ORDER BY
     salary_year_avg DESC
 LIMIT 10;
 ```
-# MISSING VISUAL
+
+![Top paying roles](assets/1b_top_paying_data_engineer_roles.png)
+
+
 ### 2. Data Analyst Skills for Top Paying Jobs
 
 To understand what skills are required for the top-paying jobs, I joined the job postings with high salaries with the skills data, providing insights into what employers value for high-compensation roles.
@@ -235,7 +238,13 @@ LIMIT 5;
 | tableau | 1349         |
 | R       | 884          |
 
+The table provided represents the demand for various skills in the job market based on their frequency of occurrence in job postings:
 
+- **SQL:** 2,455 mentions, making it the most in-demand skill.
+- **Python:** 1,532 mentions, indicating its prominence in data-related roles.
+- **Excel:** 1,457 mentions, showing its continued relevance for data management.
+- **Tableau:** 1,349 mentions, highlighting the demand for visualization tools.
+- **R:** 884 mentions, indicating demand for statistical computing in specialized roles.
 
 
 ### 3b. In-Demand Skills for Data Engineers
@@ -272,6 +281,18 @@ LIMIT 5;
 | aws    | 345          |
 | azure  | 242          |
 | spark  | 223          |
+
+Based on the table, here are the top 5 skills in-demand for data engineers:
+
+***1.SQL:*** Continues to dominate as the most in-demand skill, reflecting its critical role in data querying and management.
+
+***2.Python:*** A close second to SQL, Python remains a highly sought-after skill, especially for data analysis, machine learning, and automation.
+
+***3.AWS:*** Highlights the growing importance of cloud computing in managing and processing data at scale.
+
+***4.Azure:*** Indicates strong demand for Microsoft's cloud platform, complementing AWS in enterprise environments.
+
+***5.Spark:*** Shows the need for distributed data processing frameworks, particularly in handling large-scale data.
 
 ### 4a. Data Analysts Skills Based on Salary
 
@@ -463,7 +484,24 @@ LIMIT 30;
 
 # What You Learned - Specific techniques and skills you Learned
 
+Throughout this project, I honed several key SQL techniques and skills:
+
+- **Complex Query Construction**: Learning to build advanced SQL queries that combine multiple tables and employ functions like **`WITH`** clauses for temporary tables.
+- **Data Aggregation**: Utilizing **`GROUP BY`** and aggregate functions like **`COUNT()`** and **`AVG()`** to summarize data effectively.
+- **Analytical Thinking**: Developing the ability to translate real-world questions into actionable SQL queries that got insightful answers.
+
+
 # Insights - The insights you got from each this analysis and what you would do with this information.
 
+From the analysis, several general insights emerged:
+
+1. **Top-Paying Data Analyst Jobs**: The highest-paying jobs for data analysts that allow remote work offer a wide range of salaries, the highest at $650,000!
+2. **Skills for Top-Paying Jobs**: High-paying data analyst jobs require advanced proficiency in SQL, suggesting it’s a critical skill for earning a top salary.
+3. **Most In-Demand Skills**: SQL is also the most demanded skill in the data analyst job market, thus making it essential for job seekers.
+4. **Skills with Higher Salaries**: Specialized skills, such as SVN and Solidity, are associated with the highest average salaries, indicating a premium on niche expertise.
+5. **Optimal Skills for Job Market Value**: SQL leads in demand and offers for a high average salary, positioning it as one of the most optimal skills for data analysts to learn to maximize their market value.
 
 # Conclusion - Wrapping everything up.
+
+This project enhanced my SQL skills and provided valuable insights into the data analyst job market. The findings from the analysis serve as a guide to prioritizing skill development and job search efforts. Aspiring data analysts can better position themselves in a competitive job market by focusing on high-demand, high-salary skills. This exploration highlights the importance of continuous learning and adaptation to emerging trends in the field of data analytics.
+
